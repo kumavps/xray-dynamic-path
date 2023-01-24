@@ -8,9 +8,9 @@ services:
     volumes:
       - "./xray/config.json:/etc/xray/config.json"
     restart: "unless-stopped"
-  openresty:
-    image: "openresty/openresty:alpine"
-    container_name: "openresty"
+  nginx:
+    image: "nginx:alpine"
+    container_name: "nginx"
     ports:
       - "80:80"
     volumes:
