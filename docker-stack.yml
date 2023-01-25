@@ -1,7 +1,7 @@
-version: "3"
+version: "3.3"
 services:
   xray:
-    build: "."
+    image: "xray:dynamic"
     configs:
       - source: "xray_config"
         target: "/etc/xray/config.json"
@@ -13,12 +13,12 @@ services:
       restart_policy:
         condition: "on-failure"
       replicas: 2
-  nginx:
-    image: "nginx:alpine"
+  openresty:
+    image: "openresty/openresty:alpine"
     ports:
       - "80:80"
     configs:
-      - source: "nginx_config"
+      - source: "openresty_config"
         target: "/etc/nginx/conf.d/default.conf"
     depends_on:
       - "xray"
@@ -35,6 +35,4 @@ networks:
 
 configs:
   xray_config:
-    file: "./xray/config.json"
-  nginx_config:
-    file: "./nginx/default.conf"
+  openresty_config:
