@@ -13,12 +13,12 @@ services:
       restart_policy:
         condition: "on-failure"
       replicas: 2
-  openresty:
+  nginx:
     image: "openresty/openresty:alpine"
     ports:
       - "80:80"
     configs:
-      - source: "openresty_config"
+      - source: "nginx_config"
         target: "/etc/nginx/conf.d/default.conf"
     depends_on:
       - "xray"
@@ -35,4 +35,6 @@ networks:
 
 configs:
   xray_config:
-  openresty_config:
+    file: "./xray/config.json"
+  nginx_config:
+    file: "./nginx/default.conf"
