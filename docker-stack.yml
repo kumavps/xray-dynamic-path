@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   xray:
-    build: "."
+    image: "xray-dynamic-path:latest"
     configs:
       - source: "xray_config"
         target: "/etc/xray/config.json"
