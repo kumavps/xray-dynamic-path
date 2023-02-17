@@ -1,12 +1,14 @@
 version: "3"
 services:
   xray:
-    build: "."
+    image: "mboxjem/xray-dynamic-path:latest"
     container_name: "xray"
     expose:
       - "10000"
     volumes:
       - "./xray/config.json:/etc/xray/config.json"
+    environment:
+      TZ: "Asia/Jakarta"
     restart: "unless-stopped"
   nginx:
     image: "nginx:alpine"
@@ -15,6 +17,7 @@ services:
       - "80:80"
     volumes:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/index.html:/usr/share/nginx/html/index.html"
     depends_on:
       - "xray"
     restart: "unless-stopped"
