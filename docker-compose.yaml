@@ -21,3 +21,13 @@ services:
     depends_on:
       - "xray"
     restart: "unless-stopped"
+  cloudflared:
+    image: "cloudflare/cloudflared:latest"
+    container_name: "cloudflared"
+    command: "tunnel run"
+    environment:
+      TUNNEL_TOKEN: ""
+    depends_on:
+      - "xray"
+      - "nginx"
+    restart: "unless-stopped"
