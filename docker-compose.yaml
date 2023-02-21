@@ -7,8 +7,6 @@ services:
       - "10000"
     volumes:
       - "./xray/config.json:/etc/xray/config.json"
-    environment:
-      TZ: "Asia/Jakarta"
     restart: "unless-stopped"
   nginx:
     image: "nginx:alpine"
@@ -25,8 +23,6 @@ services:
     image: "cloudflare/cloudflared:latest"
     container_name: "cloudflared"
     command: "tunnel run"
-    environment:
-      TUNNEL_TOKEN: ""
     depends_on:
       - "xray"
       - "nginx"
