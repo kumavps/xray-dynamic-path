@@ -5,8 +5,6 @@ services:
     configs:
       - source: "xray_config"
         target: "/etc/xray/config.json"
-    environment:
-      TZ: "Asia/Jakarta"
     networks:
       - "kuma_network"
     deploy:
@@ -29,7 +27,7 @@ services:
     deploy:
       restart_policy:
         condition: "on-failure"
-      replicas: 2
+      replicas: 1
   cloudflared:
     image: "cloudflare/cloudflared:latest"
     command: "tunnel run"
