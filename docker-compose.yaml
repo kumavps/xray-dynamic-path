@@ -5,6 +5,8 @@ services:
     configs:
       - source: "xray_config"
         target: "/etc/xray/config.json"
+    environment:
+      TZ: $TZ
     networks:
       - "kuma_network"
     deploy:
@@ -20,10 +22,10 @@ services:
         target: "/etc/nginx/conf.d/default.conf"
       - source: "html_config"
         target: "/usr/share/nginx/html/index.html"
-    depends_on:
-      - "xray"
     networks:
       - "kuma_network"
+    depends_on:
+      - "xray"
     deploy:
       restart_policy:
         condition: "on-failure"
@@ -31,11 +33,13 @@ services:
   cloudflared:
     image: "cloudflare/cloudflared:latest"
     command: "tunnel run"
+    environment:
+      TUNNEL_TOKEN: $TUNNEL_TOKEN
+    networks:
+      - "kuma_network"
     depends_on:
       - "xray"
       - "nginx"
-    networks:
-      - "kuma_network"
     deploy:
       restart_policy:
         condition: "on-failure"
