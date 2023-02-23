@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3"
 services:
   xray:
     image: "mboxjem/xray-dynamic-path:latest"
@@ -6,7 +6,7 @@ services:
     expose:
       - "10000"
     volumes:
-      - "./xray/config.json:/etc/xray/config.json:ro"
+      - "xray_config:/etc/xray/config.json"
     restart: "unless-stopped"
   nginx:
     image: "nginx:alpine"
@@ -14,8 +14,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
-      - "./nginx/index.html:/usr/share/nginx/html/index.html:ro"
+      - "nginx_config:/etc/nginx/conf.d/default.conf"
     depends_on:
       - "xray"
     restart: "unless-stopped"
@@ -27,3 +26,9 @@ services:
       - "xray"
       - "nginx"
     restart: "unless-stopped"
+
+configs:
+  xray_config:
+    file: "./xray/config.json"
+  nginx_config:
+    file: "./nginx/default.conf"
