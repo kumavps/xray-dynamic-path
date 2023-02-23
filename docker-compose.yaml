@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   xray:
-    image: "teddysun/xray:latest"
+    image: "mboxjem/xray-dynamic-path:latest"
     configs:
       - source: "xray_config"
         target: "/etc/xray/config.json"
@@ -14,7 +14,7 @@ services:
         condition: "on-failure"
       replicas: 2
   nginx:
-    image: "mboxjem/xray-dynamic-path:latest"
+    image: "nginx:alpine"
     ports:
       - "80:80"
     configs:
@@ -29,7 +29,7 @@ services:
     deploy:
       restart_policy:
         condition: "on-failure"
-      replicas: 1
+      replicas: 2
   cloudflared:
     image: "cloudflare/cloudflared:latest"
     command: "tunnel run"
